@@ -1,0 +1,82 @@
+rules_version = '2';
+
+// Regras de segurança do Move Challenge.
+// Os testes automatizados destas regras ficam em firestore-tests/.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function logado() {
+      return request.auth != null;
+    }
+
+    function eu(uid) {
+      return logado() && request.auth.uid == uid;
+    }
+
+    function participa(desafioId) {
+      return logado() && exists(
+        /databases/$(database)/documents/desafios/$(desafioId)/participantes/$(request.auth.uid)
+      );
+    }
+
+    function nomeValido(nome) {
+      return nome is string && nome.size() > 0 && nome.size() <= 30;
+    }
+
+    function dataValida(data) {
+      return data is string && data.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
+    }
+
+    // Perfil: cada pessoa só lê e altera o próprio.
+    match /users/{uid} {
+      allow read: if eu(uid);
+      allow create, update: if eu(uid) && nomeValido(request.resource.data.nome);
+      allow delete: if false;
+    }
+
+    // Código de convite: pode ser consultado por quem está logado, mas
+    // nunca sobrescrito.
+    match /codigos/{codigo} {
+      allow read: if logado();
+      allow create: if logado()
+        && codigo.matches('^[A-HJ-NP-Z2-9]{6}$')
+        && request.resource.data.desafioId is string;
+      allow update, delete: if false;
+    }
+
+    match /desafios/{desafioId} {
+      allow read: if participa(desafioId);
+      allow create: if logado()
+        && request.resource.data.criadoPor == request.auth.uid
+        && nomeValido(request.resource.data.nome)
+        && dataValida(request.resource.data.dataInicio);
+      allow update: if logado()
+        && resource.data.criadoPor == request.auth.uid
+        && request.resource.data.criadoPor == resource.data.criadoPor
+        && request.resource.data.codigo == resource.data.codigo;
+      allow delete: if false;
+
+      match /participantes/{uid} {
+        allow read: if participa(desafioId);
+        allow create, update: if eu(uid)
+          && nomeValido(request.resource.data.nome)
+          && request.resource.data.cor is int;
+        allow delete: if eu(uid);
+      }
+
+      // Cada pessoa marca e desmarca apenas os próprios dias.
+      match /marcacoes/{marcacaoId} {
+        allow read: if participa(desafioId);
+        allow create, update: if participa(desafioId)
+          && request.resource.data.uid == request.auth.uid
+          && dataValida(request.resource.data.data)
+          && marcacaoId == request.auth.uid + '_' + request.resource.data.data
+          && request.resource.data.tipo in ['treino', 'leve', 'coringa']
+          && request.resource.data.comAmigo is bool
+          && !(request.resource.data.tipo == 'coringa' && request.resource.data.comAmigo == true);
+        allow delete: if participa(desafioId)
+          && resource.data.uid == request.auth.uid;
+      }
+    }
+  }
+}
