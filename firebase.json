@@ -1,15 +1,16 @@
 {
-  "name": "move-challenge-firestore-tests",
-  "private": true,
-  "description": "Testes das regras de segurança do Firestore do Move Challenge",
-  "scripts": {
-    "test": "mocha --timeout 15000 \"test/**/*.test.js\"",
-    "test:emulador": "cd .. && firebase emulators:exec --only firestore --project demo-move-challenge \"npm --prefix firestore-tests test\""
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
   },
-  "devDependencies": {
-    "@firebase/rules-unit-testing": "^4.0.1",
-    "firebase": "^11.10.0",
-    "firebase-tools": "^14.11.0",
-    "mocha": "^10.8.2"
+  "hosting": {
+    "public": "build/web",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [{ "source": "**", "destination": "/index.html" }]
+  },
+  "emulators": {
+    "firestore": { "host": "127.0.0.1", "port": 8080 },
+    "ui": { "enabled": false },
+    "singleProjectMode": true
   }
 }
