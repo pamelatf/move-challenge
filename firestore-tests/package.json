@@ -4,7 +4,7 @@
   "description": "Testes das regras de segurança do Firestore do Move Challenge",
   "scripts": {
     "test": "mocha --timeout 15000 \"test/**/*.test.js\"",
-    "test:emulador": "firebase emulators:exec --only firestore --project demo-move-challenge \"npm test\""
+    "test:emulador": "cd .. && firebase emulators:exec --only firestore --project demo-move-challenge \"npm --prefix firestore-tests test\""
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "^4.0.1",
