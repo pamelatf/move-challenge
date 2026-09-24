@@ -23,3 +23,8 @@ node_modules/
 firestore-debug.log
 firebase-debug.log
 ui-debug.log
+
+# Evidências e logs baixados do CI
+maestro-evidencias/
+maestro-relatorio.xml
+*.log
