@@ -7,10 +7,17 @@ appId: com.pamelatf.move_challenge
 - tapOn: "Criar conta"
 - tapOn: "Nome"
 - inputText: "Ana Teste"
+- hideKeyboard
 - tapOn: "E-mail"
 - inputText: ${output.email}
+- hideKeyboard
+- scrollUntilVisible:
+    element: "Senha"
 - tapOn: "Senha"
 - inputText: "segredo123"
+- hideKeyboard
+- scrollUntilVisible:
+    element: "Confirmar senha"
 - tapOn: "Confirmar senha"
 - inputText: "segredo123"
 - hideKeyboard
