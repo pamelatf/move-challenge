@@ -1,0 +1,13 @@
+# E2E-02 [RN1, RN6] Marcação do dia de hoje e reflexo nos pontos e no ranking
+appId: com.pamelatf.move_challenge
+---
+- runFlow: subflows/criar-conta.yaml
+- runFlow: subflows/criar-desafio.yaml
+- tapOn: "Marcar hoje"
+- tapOn: "Treinei"
+- tapOn: "Salvar"
+- assertVisible: "Dia salvo"
+- assertVisible: "1 pontos no mês"
+- tapOn: "Ranking"
+- assertVisible: ".*\\(você\\).*"
+- takeScreenshot: E2E-02-ranking

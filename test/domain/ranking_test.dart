@@ -22,7 +22,7 @@ void main() {
         inicioDesafio: '2026-08-01',
       );
 
-  test('ordena por pontos e inclui quem não marcou nada', () {
+  test('UNI-20 [RN6] ordena por pontos e inclui quem não marcou nada', () {
     final itens = ranking([
       marcacao('2026-09-01', uid: 'bia'),
       marcacao('2026-09-02', uid: 'bia'),
@@ -33,7 +33,7 @@ void main() {
     expect(itens.last.resultado.pontos, 0);
   });
 
-  test('no empate, vence a maior sequência atual', () {
+  test('UNI-21 [RN6] no empate, vence a maior sequência atual', () {
     final itens = ranking([
       marcacao('2026-09-01', uid: 'ana'),
       marcacao('2026-09-02', uid: 'ana'),
@@ -44,12 +44,12 @@ void main() {
     expect(itens.first.sequencia, 2);
   });
 
-  test('no empate total, usa ordem alfabética', () {
+  test('UNI-22 [RN6] no empate total, usa ordem alfabética', () {
     final itens = ranking([]);
     expect(itens.map((i) => i.participante.nome), ['Ana', 'Bia', 'Carol']);
   });
 
-  test('período do mês ignora meses anteriores; total considera tudo', () {
+  test('UNI-23 [RN6] período do mês ignora meses anteriores; total considera tudo', () {
     final marcacoes = [
       marcacao('2026-08-10', uid: 'ana'),
       marcacao('2026-08-11', uid: 'ana'),
@@ -63,7 +63,7 @@ void main() {
     expect(total.first.resultado.pontos, 2);
   });
 
-  test('gera texto para compartilhar no grupo', () {
+  test('UNI-24 [RN6] gera texto para compartilhar no grupo', () {
     final itens = ranking([
       marcacao('2026-09-21', uid: 'ana'),
       marcacao('2026-09-22', uid: 'ana'),

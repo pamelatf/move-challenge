@@ -146,13 +146,35 @@ npm install
 npm run test:emulador
 ```
 
+### Testes de ponta a ponta (Maestro)
+
+Os fluxos ficam em `.maestro/` e rodam em um emulador Android, com o app conectado aos emuladores do Firebase (nunca ao projeto real). Para rodar localmente, com o emulador Android aberto e o [Maestro](https://maestro.mobile.dev) instalado:
+
+```powershell
+firebase emulators:start --only auth,firestore --project move-challenge-b5aa8
+flutter build apk --debug --dart-define=USE_FIREBASE_EMULATORS=true
+adb install build/app/outputs/flutter-apk/app-debug.apk
+maestro test .maestro
+```
+
+A versão de depuração precisa permitir conexão sem HTTPS com os emuladores. Isso está configurado em `android/app/src/debug/AndroidManifest.xml`.
+
+### Mapa da automação
+
+Cada teste traz no nome um identificador e as regras que cobre, por exemplo `UNI-06 [RN1] treino e dia leve valem 1 ponto cada`. O script abaixo lê todos os testes e gera a página de mapa da wiki:
+
+```powershell
+node scripts/gerar-mapa-automacao.js
+```
+
 ## Integração contínua
 
 O workflow `.github/workflows/ci.yml` roda a cada push na branch `main`:
 
 1. análise estática e testes Flutter;
 2. testes das regras de segurança no emulador do Firestore;
-3. geração do APK, disponível para download na aba **Actions** do GitHub, na seção **Artifacts**.
+3. geração do APK, disponível para download na aba **Actions** do GitHub, na seção **Artifacts**;
+4. testes de ponta a ponta com Maestro em emulador Android, com relatório e capturas de tela publicados como artefato.
 
 Para o job do APK funcionar, os arquivos gerados nos passos 3 a 5 (`android/`, `web/` e `lib/firebase_options.dart`) precisam estar no repositório.
 

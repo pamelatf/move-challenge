@@ -119,11 +119,15 @@ class _CriarContaScreenState extends State<CriarContaScreen> {
                 Text(_erro!, style: textos.bodyMedium?.copyWith(color: t.erro)),
               ],
               const SizedBox(height: 24),
-              FilledButton(
-                onPressed: _carregando ? null : _criar,
-                child: _carregando
-                    ? const CarregandoNoBotao()
-                    : const Text('Criar conta'),
+              Semantics(
+                container: true,
+                identifier: 'botao-criar-conta',
+                child: FilledButton(
+                  onPressed: _carregando ? null : _criar,
+                  child: _carregando
+                      ? const CarregandoNoBotao()
+                      : const Text('Criar conta'),
+                ),
               ),
               const SizedBox(height: 8),
               Row(

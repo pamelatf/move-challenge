@@ -1,0 +1,15 @@
+# Subfluxo: a partir de "Entre no desafio", cria um desafio e abre a tela Marcar.
+appId: com.pamelatf.move_challenge
+---
+- tapOn: "Criar novo desafio"
+- tapOn: "Nome do desafio"
+- inputText: "Desafio E2E"
+- hideKeyboard
+- tapOn: "Criar desafio"
+- extendedWaitUntil:
+    visible: "Desafio criado. Agora é chamar o grupo."
+    timeout: 20000
+- tapOn: "Ir para o desafio"
+- extendedWaitUntil:
+    visible: "Marcar hoje"
+    timeout: 20000

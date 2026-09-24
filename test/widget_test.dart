@@ -5,7 +5,7 @@ import 'package:move_challenge/ui/screens/boas_vindas_screen.dart';
 import 'fakes.dart';
 
 void main() {
-  testWidgets('tela de boas-vindas mostra o nome do app e as ações',
+  testWidgets('WID-14 [RN7] tela de boas-vindas mostra o nome do app e as ações',
       (tester) async {
     await tester.pumpWidget(comTema(const BoasVindasScreen()));
 

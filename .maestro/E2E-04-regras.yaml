@@ -1,0 +1,12 @@
+# E2E-04 [RN1, RN2, RN3, RN4] A tela de Regras declara a pontuação que o app aplica
+appId: com.pamelatf.move_challenge
+---
+- runFlow: subflows/criar-conta.yaml
+- runFlow: subflows/criar-desafio.yaml
+- tapOn: "Regras"
+- assertVisible: "Dia com atividade \\(20 a 30 minutos ou mais\\)"
+- assertVisible: "Treinar com alguém do desafio, junto ou por chamada de vídeo"
+- assertVisible: "7 dias seguidos"
+- assertVisible: "\\+3 pontos"
+- assertVisible: "Como funciona o coringa"
+- takeScreenshot: E2E-04-regras

@@ -34,7 +34,7 @@ void main() {
     );
   }
 
-  testWidgets('mostra o mês e descreve o status de cada dia', (tester) async {
+  testWidgets('WID-01 [RN1, RN2, RN4] mostra o mês e descreve o status de cada dia', (tester) async {
     final semantica = tester.ensureSemantics();
     await montar(tester);
 
@@ -53,7 +53,7 @@ void main() {
     semantica.dispose();
   });
 
-  testWidgets('permite tocar em dias passados e bloqueia dias futuros',
+  testWidgets('WID-02 [RN5] permite tocar em dias passados e bloqueia dias futuros',
       (tester) async {
     String? tocado;
     await montar(tester, onDiaTocado: (dia) => tocado = dia);
@@ -69,7 +69,7 @@ void main() {
     expect(tocado, isNull);
   });
 
-  testWidgets('sem callback o calendário fica somente leitura', (tester) async {
+  testWidgets('WID-03 [RN9] sem callback o calendário fica somente leitura', (tester) async {
     await montar(tester);
     await tester.tap(find.byKey(const ValueKey('dia-2026-09-10')));
     await tester.pump();

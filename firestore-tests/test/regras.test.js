@@ -63,25 +63,25 @@ beforeEach(async () => {
 });
 
 describe('Marcações', () => {
-  it('participante marca o próprio dia', async () => {
+  it('REG-01 [RN9] participante marca o próprio dia', async () => {
     await assertSucceeds(
       setDoc(doc(bancoDe('ana'), 'desafios/d1/marcacoes/ana_2026-09-11'), marcacao('ana', '2026-09-11')),
     );
   });
 
-  it('participante não marca o dia de outra pessoa', async () => {
+  it('REG-02 [RN9] participante não marca o dia de outra pessoa', async () => {
     await assertFails(
       setDoc(doc(bancoDe('ana'), 'desafios/d1/marcacoes/bia_2026-09-11'), marcacao('bia', '2026-09-11')),
     );
   });
 
-  it('o id do documento precisa combinar com a pessoa e a data', async () => {
+  it('REG-03 [RN5, RN9] o id do documento precisa combinar com a pessoa e a data', async () => {
     await assertFails(
       setDoc(doc(bancoDe('ana'), 'desafios/d1/marcacoes/ana_2026-09-12'), marcacao('ana', '2026-09-11')),
     );
   });
 
-  it('recusa tipo de atividade desconhecido', async () => {
+  it('REG-04 [RN1] recusa tipo de atividade desconhecido', async () => {
     await assertFails(
       setDoc(
         doc(bancoDe('ana'), 'desafios/d1/marcacoes/ana_2026-09-11'),
@@ -90,7 +90,7 @@ describe('Marcações', () => {
     );
   });
 
-  it('recusa coringa marcado como treino com alguém', async () => {
+  it('REG-05 [RN2, RN4] recusa coringa marcado como treino com alguém', async () => {
     await assertFails(
       setDoc(
         doc(bancoDe('ana'), 'desafios/d1/marcacoes/ana_2026-09-11'),
@@ -99,65 +99,65 @@ describe('Marcações', () => {
     );
   });
 
-  it('quem não participa não marca dias', async () => {
+  it('REG-06 [RN9] quem não participa não marca dias', async () => {
     await assertFails(
       setDoc(doc(bancoDe('carol'), 'desafios/d1/marcacoes/carol_2026-09-11'), marcacao('carol', '2026-09-11')),
     );
   });
 
-  it('participante não apaga a marcação de outra pessoa', async () => {
+  it('REG-07 [RN9] participante não apaga a marcação de outra pessoa', async () => {
     await assertFails(deleteDoc(doc(bancoDe('ana'), 'desafios/d1/marcacoes/bia_2026-09-10')));
   });
 
-  it('participante apaga a própria marcação', async () => {
+  it('REG-08 [RN5] participante apaga a própria marcação', async () => {
     await assertSucceeds(deleteDoc(doc(bancoDe('bia'), 'desafios/d1/marcacoes/bia_2026-09-10')));
   });
 });
 
 describe('Leitura do desafio', () => {
-  it('participante lê o desafio e as marcações do grupo', async () => {
+  it('REG-09 [RN9] participante lê o desafio e as marcações do grupo', async () => {
     await assertSucceeds(getDoc(doc(bancoDe('ana'), 'desafios/d1')));
     await assertSucceeds(getDoc(doc(bancoDe('ana'), 'desafios/d1/marcacoes/bia_2026-09-10')));
   });
 
-  it('quem não participa não lê o desafio', async () => {
+  it('REG-10 [RN9] quem não participa não lê o desafio', async () => {
     await assertFails(getDoc(doc(bancoDe('carol'), 'desafios/d1')));
   });
 
-  it('sem login não lê nada', async () => {
+  it('REG-11 [RN9] sem login não lê nada', async () => {
     await assertFails(getDoc(doc(bancoDe(null), 'desafios/d1')));
     await assertFails(getDoc(doc(bancoDe(null), 'codigos/AMG7K2')));
   });
 });
 
 describe('Códigos de convite', () => {
-  it('quem está logado consulta um código', async () => {
+  it('REG-12 [RN8] quem está logado consulta um código', async () => {
     await assertSucceeds(getDoc(doc(bancoDe('carol'), 'codigos/AMG7K2')));
   });
 
-  it('código existente não pode ser sobrescrito', async () => {
+  it('REG-13 [RN8] código existente não pode ser sobrescrito', async () => {
     await assertFails(setDoc(doc(bancoDe('carol'), 'codigos/AMG7K2'), { desafioId: 'outro' }));
   });
 
-  it('código com formato inválido é recusado', async () => {
+  it('REG-14 [RN8] código com formato inválido é recusado', async () => {
     await assertFails(setDoc(doc(bancoDe('carol'), 'codigos/ABC0O1'), { desafioId: 'd2' }));
   });
 });
 
 describe('Participantes e perfis', () => {
-  it('pessoa entra no desafio com o próprio usuário', async () => {
+  it('REG-15 [RN8] pessoa entra no desafio com o próprio usuário', async () => {
     await assertSucceeds(
       setDoc(doc(bancoDe('carol'), 'desafios/d1/participantes/carol'), { nome: 'Carol', cor: 3 }),
     );
   });
 
-  it('ninguém inclui outra pessoa no desafio', async () => {
+  it('REG-16 [RN9] ninguém inclui outra pessoa no desafio', async () => {
     await assertFails(
       setDoc(doc(bancoDe('carol'), 'desafios/d1/participantes/dani'), { nome: 'Dani', cor: 4 }),
     );
   });
 
-  it('perfil só pode ser lido pela própria pessoa', async () => {
+  it('REG-17 [RN9] perfil só pode ser lido pela própria pessoa', async () => {
     await assertSucceeds(getDoc(doc(bancoDe('ana'), 'users/ana')));
     await assertFails(getDoc(doc(bancoDe('bia'), 'users/ana')));
   });

@@ -20,7 +20,7 @@ void main() {
         posicao: 2,
       );
 
-  testWidgets('mostra posição, pontos, detalhes e destaca você', (tester) async {
+  testWidgets('WID-12 [RN6] mostra posição, pontos, detalhes e destaca você', (tester) async {
     await tester.pumpWidget(
       comTema(Scaffold(body: RankingLane(item: item(), maxPontos: 40, ehVoce: true))),
     );
@@ -36,7 +36,7 @@ void main() {
     expect(barra.value, 0.5);
   });
 
-  testWidgets('sem bônus, não mostra o texto de bônus', (tester) async {
+  testWidgets('WID-13 [RN3, RN6] sem bônus, não mostra o texto de bônus', (tester) async {
     await tester.pumpWidget(
       comTema(Scaffold(body: RankingLane(item: item(bonus: 0), maxPontos: 20))),
     );

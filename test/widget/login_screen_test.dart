@@ -23,7 +23,7 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('valida campos vazios sem chamar o login', (tester) async {
+  testWidgets('WID-09 [RN7] valida campos vazios sem chamar o login', (tester) async {
     await montar(tester);
     await tocarEmEntrar(tester);
 
@@ -32,7 +32,7 @@ void main() {
     expect(auth.tentativasDeEntrar, 0);
   });
 
-  testWidgets('mostra a mensagem quando o login falha', (tester) async {
+  testWidgets('WID-10 [RN7] mostra a mensagem quando o login falha', (tester) async {
     auth.erroAoEntrar =
         AuthException('E-mail ou senha incorretos. Confira e tente de novo.');
     await montar(tester);
@@ -47,7 +47,7 @@ void main() {
     );
   });
 
-  testWidgets('envia o e-mail digitado quando os dados são válidos',
+  testWidgets('WID-11 [RN7] envia o e-mail digitado quando os dados são válidos',
       (tester) async {
     await montar(tester);
 

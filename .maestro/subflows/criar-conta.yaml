@@ -1,0 +1,24 @@
+# Subfluxo: cria uma conta nova com e-mail único e chega à tela "Entre no desafio".
+appId: com.pamelatf.move_challenge
+---
+- launchApp:
+    clearState: true
+- evalScript: ${output.email = 'e2e' + Date.now() + '@move.test'}
+- tapOn: "Criar conta"
+- tapOn: "Nome"
+- inputText: "Ana Teste"
+- tapOn: "E-mail"
+- inputText: ${output.email}
+- tapOn: "Senha"
+- inputText: "segredo123"
+- tapOn: "Confirmar senha"
+- inputText: "segredo123"
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: "botao-criar-conta"
+- tapOn:
+    id: "botao-criar-conta"
+- extendedWaitUntil:
+    visible: "Entre no desafio"
+    timeout: 20000

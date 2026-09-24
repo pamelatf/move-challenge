@@ -1,0 +1,8 @@
+# E2E-01 [RN7, RN8] Cadastro de conta e criação de desafio até a tela principal
+appId: com.pamelatf.move_challenge
+---
+- runFlow: subflows/criar-conta.yaml
+- runFlow: subflows/criar-desafio.yaml
+- assertVisible: "Oi, Ana"
+- assertVisible: "0 pontos no mês"
+- takeScreenshot: E2E-01-tela-marcar

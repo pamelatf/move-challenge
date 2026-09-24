@@ -1,0 +1,19 @@
+# E2E-03 [RN7] Login com senha incorreta exibe mensagem clara e não entra
+appId: com.pamelatf.move_challenge
+---
+- runFlow: subflows/criar-conta.yaml
+- tapOn: "Sair da conta"
+- extendedWaitUntil:
+    visible: "Um movimento por dia, com o seu grupo."
+    timeout: 10000
+- tapOn: "Entrar"
+- tapOn: "E-mail"
+- inputText: ${output.email}
+- tapOn: "Senha"
+- inputText: "senhaerrada"
+- hideKeyboard
+- tapOn: "Entrar"
+- extendedWaitUntil:
+    visible: "E-mail ou senha incorretos. Confira e tente de novo."
+    timeout: 15000
+- assertNotVisible: "Entre no desafio"

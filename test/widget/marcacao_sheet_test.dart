@@ -45,7 +45,7 @@ void main() {
   FilledButton botaoSalvar(WidgetTester tester) =>
       tester.widget<FilledButton>(find.widgetWithText(FilledButton, 'Salvar'));
 
-  testWidgets('mostra a data e só libera salvar após escolher', (tester) async {
+  testWidgets('WID-04 [RN1, RN2] mostra a data e só libera salvar após escolher', (tester) async {
     final captura = await abrirSheet(tester);
 
     expect(find.text('Terça-feira, 22 de setembro'), findsOneWidget);
@@ -63,7 +63,7 @@ void main() {
     expect(captura.resultado?.remover, isFalse);
   });
 
-  testWidgets('coringa já usado no mês fica indisponível', (tester) async {
+  testWidgets('WID-05 [RN4] coringa já usado no mês fica indisponível', (tester) async {
     await abrirSheet(tester, podeUsarCoringa: false);
 
     expect(find.text('Coringa do mês já usado'), findsOneWidget);
@@ -72,7 +72,7 @@ void main() {
     expect(botaoSalvar(tester).onPressed, isNull);
   });
 
-  testWidgets('ao escolher coringa, treinar com alguém fica desabilitado',
+  testWidgets('WID-06 [RN2, RN4] ao escolher coringa, treinar com alguém fica desabilitado',
       (tester) async {
     await abrirSheet(tester);
 
@@ -82,12 +82,12 @@ void main() {
     expect(opcao.onChanged, isNull);
   });
 
-  testWidgets('desmarcar não aparece para um dia sem marcação', (tester) async {
+  testWidgets('WID-07 [RN5] desmarcar não aparece para um dia sem marcação', (tester) async {
     await abrirSheet(tester);
     expect(find.text('Desmarcar dia'), findsNothing);
   });
 
-  testWidgets('desmarcar devolve o pedido de remoção', (tester) async {
+  testWidgets('WID-08 [RN5] desmarcar devolve o pedido de remoção', (tester) async {
     final captura = await abrirSheet(tester, atual: marcacao('2026-09-22'));
 
     await tester.tap(find.text('Desmarcar dia'));
